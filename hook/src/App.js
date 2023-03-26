@@ -4,11 +4,13 @@ import { useEffect, useRef, useState } from 'react' ;
 
 
 import StarRatingComponent from 'react-star-rating-component';
+import { NavLink, Routes,Route } from 'react-router-dom';
+import Description from './Description';
 
 function App() {
-  const[movies,setMovies]=useState([{Title:"Fantasia" , Rate:"5" ,img:"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ41JAQWpnfLiq-vG9PFsXcphJCHJKdk8u4u-eCk25X-JSPjYDj"},
-  {Title:"Cendrillon" , Rate:"4" ,img:"https://www.films-disney.fr/wp-content/uploads/2018/05/cendrillon.jpg"},
-  {Title:"Bambi" , Rate:"5" ,img:" https://fr.web.img2.acsta.net/medias/nmedia/18/35/56/29/18465102.jpg"}])
+  const[movies,setMovies]=useState([{Title:"Fantasia",description:"hreihriehrier", Rate:"5" ,img:"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ41JAQWpnfLiq-vG9PFsXcphJCHJKdk8u4u-eCk25X-JSPjYDj"},
+  {Title:"Cendrillon" ,description:"hreihriehrier", Rate:"4" ,img:"https://www.films-disney.fr/wp-content/uploads/2018/05/cendrillon.jpg"},
+  {Title:"Bambi" , Rate:"5",description:"hreihriehrier" ,img:" https://fr.web.img2.acsta.net/medias/nmedia/18/35/56/29/18465102.jpg"}])
    const R1=useRef()
   const R2=useRef()
   const R3=useRef()
@@ -30,17 +32,32 @@ function App() {
 <input type={"text"} placeholder="Rate" ref={R2}></input>
 <input type={"text"} placeholder="img" ref={R3}></input>
 <button onClick={add}>Add new Movies</button></div>
-<div className='group'>
-{filtredmovies.map(e=><div className='card'>{e.Title}
+
+<Routes>
+<Route path='/' element={<div className='group'>
+{filtredmovies.map((e,index)=>
+<NavLink to={index.toString()}>
+
+<div className='card'>
+  {e.Title}
 <StarRatingComponent 
           name="rate1" 
           starCount={5}
           value={e.Rate}
         
         />
-<img src={e.img}></img></div>)}</div>
+<img src={e.img}></img></div>
+<Description movies={e}></Description>
+
+</NavLink>
+
+)}
+</div>}></Route>
+  <Route path={"/:id"}element={<Description movies={movies}></Description>}></Route>
+</Routes>
     </div>
-    
+
+   
   );
 }
 
